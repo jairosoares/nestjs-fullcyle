@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+
+  app:
+    build: .
+    container_name: nestjs-fullcycle-app
+    entrypoint: ./.docker/entrypoint.sh
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/home/node/app
+
+  db:
+    image: mysql:5.7
+    container_name: nestjs-fullcycle-db
+    restart: always
+    tty: true
+    ports:
+      - "3306:3306"
+    volumes:
+      - nestjs-fullcycle-data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=nestjs-fullcycle
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=root
+
+volumes:
+  nestjs-fullcycle-data:
+    external: true
